@@ -1,0 +1,14 @@
+const {compareGraph}= require("../lib/graphCompare");
+const Graph = require('directed-graph');
+let graph1= new Graph();
+let graph2= new Graph();
+graph1.addVertex('A');
+graph1.addVertex('B');
+graph1.addVertex('C');
+graph1.addEdge('A', 'B');
+graph1.addEdge('A', 'C');
+graph1.addEdge('B', 'A');
+graph1.addEdge('B', 'C');
+graph1.addEdge('C', 'A');
+graph1.addEdge('C', 'B');
+compareGraph(graph1,graph2);
