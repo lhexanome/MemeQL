@@ -1,8 +1,7 @@
-const { extractFromGoogle, extractKeywords } = require('../lib/extractor');
+const { extract } = require('../lib/extractor');
 const debug = require('debug')('MemQL:test');
 
-extractFromGoogle('java android null pointer exception')
-    .then(res => extractKeywords(res[0]))
-    .then(res => {
-        debug('Extracted keywords :', res);
+extract('ecole d\'ingénieur')
+    .then(keywords => {
+        debug(keywords)
     }).catch(debug);
