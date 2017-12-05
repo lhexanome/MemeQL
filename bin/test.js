@@ -1,7 +1,10 @@
-const { extract } = require('../lib/extractor');
+const { Enhanser } = require('../lib/enhanser');
 const debug = require('debug')('MemQL:test');
 
-extract('école d\'ingénieur')
-    .then(keywords => {
-        debug(keywords)
-    }).catch(debug);
+enhanser = new Enhanser();
+var res = enhanser.enhanseUrls({
+    "URL1" : {
+        "mot1" : "<http://dbpedia.org/resource/Somerville_College,_Oxford>"
+    }
+});
+debug (res);
