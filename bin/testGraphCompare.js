@@ -1,4 +1,4 @@
-const {compareGraph}= require("../lib/graphCompare");
+const {compareListGraph}= require("../lib/graphCompare");
 const Graph = require('directed-graph');
 let graph1= new Graph();
 let graph2= new Graph();
@@ -14,4 +14,5 @@ graph1.addEdge('C', 'B');
 graph2.addVertex('A');
 graph2.addVertex('B');
 graph2.addVertex('C');
-compareGraph(graph1,graph1);
+let dico={url:graph1,url2:graph2};
+compareListGraph(dico);
