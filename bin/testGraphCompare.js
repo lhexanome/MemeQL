@@ -11,4 +11,7 @@ graph1.addEdge('B', 'A');
 graph1.addEdge('B', 'C');
 graph1.addEdge('C', 'A');
 graph1.addEdge('C', 'B');
-compareGraph(graph1,graph2);
+graph2.addVertex('A');
+graph2.addVertex('B');
+graph2.addVertex('C');
+compareGraph(graph1,graph1);
