@@ -17,7 +17,7 @@ router.get('/', function (req, res, next) {
 
 /* GET users listing. */
 router.get('/test', function (req, res, next) {
-    console.log(constructJsonData(test['url1']));
+    //console.log(constructJsonData(test['url1']));
     res.json(constructJsonData(test['url1']));
 });
 
