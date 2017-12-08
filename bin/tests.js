@@ -6,5 +6,4 @@ const test = {
     "url2": [["s3", "p3", "o2"], ["s2", "p2", "o1"], ["s4", "p3", "o2"]]
 };
 
-const constructedGraphs = constructGraphs(test);
 console.log(constructJsonData(test['url1']));
