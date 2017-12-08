@@ -1,5 +1,9 @@
 <!DOCTYPE html>
-<meta charset="utf-8">
+<html>
+<head>
+    <meta charset="utf-8">
+</head>
+<body>
 <style>
 
     .node {
@@ -10,9 +14,15 @@
     .link {
         fill: none;
         stroke: #bbb;
+        stroke-dasharray: 0,2 1;
     }
 
+
+
+
 </style>
+
+
 <svg width="960" height="600"></svg>
 <script src="https://d3js.org/d3.v4.min.js"></script>
 <script>
@@ -23,7 +33,7 @@
     var color = d3.scaleOrdinal(d3.schemeCategory20);
 
     var simulation = d3.forceSimulation()
-        .force("link", d3.forceLink().distance(10).strength(0.5))
+        .force("link", d3.forceLink().distance(100).strength(0.5))
         .force("charge", d3.forceManyBody())
         .force("center", d3.forceCenter(width / 2, height / 2));
 
@@ -60,7 +70,7 @@
                     }))
                     .enter().append("circle")
                     .attr("class", "node")
-                    .attr("r", 5)
+                    .attr("r", 15)
                     .attr("fill", function (d) {
                         return color(d.group);
                     })
