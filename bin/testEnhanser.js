@@ -1,18 +1,15 @@
-const { Enhanser } = require('../lib/enhanser');
+const { Enhancer } = require('../lib/enhancer');
 const debug = require('debug')('MemQL:test');
 const request = require("request-promise-native");
 
-enhanser = new Enhanser();
-try {
-    const res =  enhanser.enhanseUrls({
-        "URL1": {
-            "mot1": "<http://dbpedia.org/resource/Somerville_College,_Oxford>"
-        }
-    });
-    res.then(function (res) {
-        console.log ("ok!");
-        console.log (res);
-    });
-}catch (e){
-    console.log (e);
-}
+const enhancer = new Enhancer();
+
+const res = enhancer.enhanceUrls({
+    "URL1": {
+        "mot1": "<http://dbpedia.org/resource/Somerville_College,_Oxford>"
+    }
+});
+res.then(res => {
+    console.log("ok!");
+    console.log(res);
+}).catch(console.error);
