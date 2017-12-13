@@ -2,23 +2,45 @@ const express = require('express');
 const router = express.Router();
 const path = require('path');
 const debug = require('debug')('MemeMQL:express');
-const data = require('../data/d3_test_data');
-const {constructJsonData} = require('../lib/graph.js');
-const test = {
-    "url1": [["s1", "p1", "o1"], ["s2", "p2", "s1"], ["s1", "p3", "s2"],["s1", "p4", "o1"]],
-    "url2": [["s3", "p3", "o2"], ["s2", "p2", "o1"], ["s4", "p3", "o2"]]
-};
+const { constructJsonData } = require('../lib/graph.js');
+const { extract } = require('../lib/extractor');
+const { Enhancer } = require('../lib/enhancer');
+
+const enhancer = new Enhancer();
+
 /* GET home page. */
 router.get('/', function (req, res, next) {
     debug("dirname : " + __dirname);
     res.sendFile(path.resolve(__dirname, '../views/index.html'));
 });
 
+// Async middleware
+router.use(function (fn) {
+    return (req, res, next) => {
+        Promise
+            .resolve(fn(req, res, next))
+            .catch(next);
+    }
+});
+
 
 /* GET users listing. */
-router.get('/test', function (req, res, next) {
-    //console.log(constructJsonData(test['url1']));
-    res.json(constructJsonData(test['url1']));
+router.get('/search', async function (req, res, next) {
+    if (!req.query.q) {
+        res.status(400).send('You must provide the `q` query parameter');
+        return res.end();
+    }
+
+    const extractedData = await extract(req.query.q);
+
+    const enhancedData = await enhancer.enhanceUrls(extractedData);
+
+    const jsonGraph = constructJsonData(enhancedData);
+
+    debug('Graph for search %s', req.query.q);
+    res.json({
+        graph: jsonGraph,
+    });
 });
 
 module.exports = router;
