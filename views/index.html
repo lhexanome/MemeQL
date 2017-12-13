@@ -72,7 +72,10 @@
                 updateMatrix(data.matrix);
                 updateGraph(data.graph);
             })
-            .catch(err => alert(`Erreur lors du fetch : ${err.message}`));
+            .catch(err => {
+                console.log('Error :', err);
+                alert(`Erreur lors du fetch : ${err.message}`);
+            });
     }, false);
 </script>
 
