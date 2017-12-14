@@ -101,15 +101,20 @@
 <script>
     const form = document.getElementById('query-form');
     const queryInput = document.getElementById('query');
+    let currentlyQuerying = false;
+
     form.addEventListener('submit', event => {
         event.preventDefault();
 
-        if (!queryInput.value) {
-            alert('Vous devez rentrer une recherche');
-        }
+        if (!queryInput.value) return alert('Vous devez rentrer une recherche');
+        if (currentlyQuerying) return alert('Une requête est déjà en cours');
 
+        currentlyQuerying = true;
         fetch(`/search?q=${encodeURIComponent(queryInput.value)}`)
-            .then(res => res.json())
+            .then(res => {
+                if (!res.ok) return Promise.reject(res.body);
+                return res.json();
+            })
             .then(data => {
                 dataManager.sites = data.sites;
                 dataManager.matrix = data.matrix;
@@ -117,7 +122,8 @@
             .catch(err => {
                 console.log('Error :', err);
                 alert(`Erreur lors du fetch : ${err.message}`);
-            });
+            })
+            .then(() => currentlyQuerying = false);
     }, false);
 </script>
 <script>
