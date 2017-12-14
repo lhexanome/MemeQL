@@ -5,6 +5,7 @@ const debug = require('debug')('MemQL:express');
 const { constructJsonData } = require('../lib/graph.js');
 const { extract } = require('../lib/extractor');
 const { Enhancer } = require('../lib/enhancer');
+const {compareListGraph}= require("../lib/graphCompare");
 
 const enhancer = new Enhancer();
 
@@ -40,6 +41,7 @@ router.get('/search', am(async function (req, res, next) {
     debug('Graph for search %s', req.query.q);
     res.json({
         sites: jsonArray,
+        matrix: compareListGraph(jsonArray)
     });
 }));
 
