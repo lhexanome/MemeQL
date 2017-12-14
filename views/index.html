@@ -153,7 +153,11 @@
         dataManager.selectedSite = selectElem.value;
     });
 
-
+    function float2color( percentage ) {
+        let color_part_dec = 255 * percentage;
+        let color_part_hex = Number(parseInt( color_part_dec , 10)).toString(16);
+        return "#" + color_part_hex + color_part_hex + color_part_hex;
+    }
     function updateMatrix(data) {
         let table = document.createElement('table');
         let tableBody = document.createElement('tbody');
@@ -162,8 +166,9 @@
             let row = document.createElement('tr');
 
             rowData.forEach(function (cellData) {
-                let cell = document.createElement('td');
-                cell.appendChild(document.createTextNode(cellData));
+                let cell = document.createElement("td");
+                cell.setAttribute("bgcolor",float2color(cellData));
+                cell.appendChild(document.createTextNode(" "));
                 row.appendChild(cell);
             });
 
