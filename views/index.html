@@ -47,6 +47,8 @@
     <input type="submit" value="Let's Go!">
 </form>
 
+<label for="selectSite">Graphe affiché</label>
+<select id="selectSite"></select>
 
 <div class="graphContainer"></div>
 
@@ -79,15 +81,18 @@
         set sites(value) {
             this._sites = value;
             this.selectedSite = value[0];
+            updateSelect(value);
         }
 
         get selectedSite() {
             return this._selectedSite;
         }
 
-        set selectedSite(site) {
-            this._selectedSite = site;
-            updateGraph(site.graph);
+        set selectedSite(siteURL) {
+            this._selectedSite = this._sites.find(s => s.url === siteURL);
+            if (!this._selectedSite) return;
+
+            updateGraph(this._selectedSite.graph);
         }
     }
 
@@ -115,13 +120,44 @@
             });
     }, false);
 </script>
+<script>
+    const selectElem = document.getElementById('selectSite');
+
+    function updateSelect(values) {
+        // Remove all child
+        while (selectElem.firstChild) selectElem.removeChild(selectElem.firstChild);
+
+        // Set values
+        if (!values) return;
+
+        values.forEach(v => {
+            const option = document.createElement('option');
+            option.value = v.url;
+            option.text = v.url;
+            selectElem.add(option);
+        });
+
+        // Selected first
+        selectElem.value = values[0].url;
+        dataManager.selectedSite = values[0].value;
+    }
+
+    selectElem.addEventListener('change', () => {
+        dataManager.selectedSite = selectElem.value;
+    });
+</script>
 
 <script src="https://d3js.org/d3.v3.min.js"></script>
 <script>
-    const WIDTH = 960;
-    const HEIGHT = 500;
+    const WIDTH = 1500;
+    const HEIGHT = 800;
 
     function updateGraph(data) {
+        // Clear anything already created (dirty but works)
+        const el = document.getElementsByClassName('graphContainer')[0];
+        // Remove all child
+        while (el.firstChild) el.removeChild(el.firstChild);
+
         const color = d3.scale.category20();
 
         // used to store the number of links between two nodes.
