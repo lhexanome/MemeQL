@@ -158,6 +158,23 @@
 
 
     function updateMatrix(data) {
+        let table = document.createElement('table');
+        let tableBody = document.createElement('tbody');
+
+        data.forEach(function (rowData) {
+            let row = document.createElement('tr');
+
+            rowData.forEach(function (cellData) {
+                let cell = document.createElement('td');
+                cell.appendChild(document.createTextNode(cellData));
+                row.appendChild(cell);
+            });
+
+            tableBody.appendChild(row);
+        });
+
+        table.appendChild(tableBody);
+        document.body.appendChild(table);
 
     }
 </script>
