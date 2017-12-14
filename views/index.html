@@ -34,6 +34,12 @@
 
         .graphContainer {
             text-shadow: -1px -1px 0 white, 1px -1px 0 white, -1px 1px 0 white, 1px 1px 0 white;
+            float: left;
+        }
+
+        table {
+            width: 400px;
+            height: 400px;
         }
 
 
@@ -156,22 +162,26 @@
         dataManager.selectedSite = selectElem.value;
     });
 
-    function float2color( percentage ) {
-        let color_part_dec = 255 * percentage;
-        let color_part_hex = Number(parseInt( color_part_dec , 10)).toString(16);
-        return "#" + color_part_hex + color_part_hex + color_part_hex;
+    function float2color(percentage) {
+        const colorPartDec = 255 * percentage;
+        const colorPartHex = Number(parseInt(colorPartDec, 10)).toString(16);
+
+        return "#" + colorPartHex + colorPartHex + colorPartHex;
     }
+
+
     function updateMatrix(data) {
-        let table = document.createElement('table');
-        let tableBody = document.createElement('tbody');
+        const table = document.createElement('table');
+        const tableBody = document.createElement('tbody');
 
-        data.forEach(function (rowData) {
-            let row = document.createElement('tr');
+        data.forEach(rowData => {
+            const row = document.createElement('tr');
 
-            rowData.forEach(function (cellData) {
-                let cell = document.createElement("td");
-                cell.setAttribute("bgcolor",float2color(cellData));
+            rowData.forEach(cellData => {
+                const cell = document.createElement("td");
+                cell.setAttribute("bgcolor", float2color(cellData));
                 cell.appendChild(document.createTextNode(" "));
+
                 row.appendChild(cell);
             });
 
@@ -186,7 +196,7 @@
 
 <script src="https://d3js.org/d3.v3.min.js"></script>
 <script>
-    const WIDTH = 1500;
+    const WIDTH = 1000;
     const HEIGHT = 800;
 
     function updateGraph(data) {
