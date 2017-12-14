@@ -121,7 +121,7 @@
             })
             .catch(err => {
                 console.log('Error :', err);
-                alert(`Erreur lors du fetch : ${err.message}`);
+                alert(`Erreur lors du fetch : ${err}`);
             })
             .then(() => currentlyQuerying = false);
     }, false);
