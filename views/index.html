@@ -72,6 +72,7 @@
 
         set matrix(value) {
             this._matrix = value;
+            updateMatrix(value);
         }
 
         get sites() {
@@ -145,12 +146,17 @@
 
         // Selected first
         selectElem.value = values[0].url;
-        dataManager.selectedSite = values[0].value;
+        dataManager.selectedSite = values[0].url;
     }
 
     selectElem.addEventListener('change', () => {
         dataManager.selectedSite = selectElem.value;
     });
+
+
+    function updateMatrix(data) {
+
+    }
 </script>
 
 <script src="https://d3js.org/d3.v3.min.js"></script>
@@ -207,7 +213,7 @@
             .data(force.links())
             .enter().append('svg:path')
             .attr('class', 'link')
-            .style('stroke-width', d => Math.sqrt(d.value))
+            .style('stroke-width', 2)
             .style('stroke', d => color(d.value))
             .attr('marker-end', 'url(#end)');
 
@@ -308,10 +314,6 @@
                 previousValue = value;
             });
         }
-    }
-
-    function updateMatrix(data) {
-
     }
 </script>
 </body>
