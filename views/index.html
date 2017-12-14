@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html>
-<header>
+<head>
     <meta charset="utf-8">
-    <style>
+    <style type="text/css">
 
         path.link {
             fill: #ccc;
@@ -38,7 +38,7 @@
 
 
     </style>
-</header>
+</head>
 <body>
 
 <form id="query-form" action="" method="get">
@@ -56,9 +56,46 @@
 <!--#####################-->
 
 <script>
+    class DataManager {
+
+        constructor() {
+            this._selectedSite = null;
+            this._sites = [];
+            this._matrix = null;
+        }
+
+        get matrix() {
+            return this._matrix;
+        }
+
+        set matrix(value) {
+            this._matrix = value;
+        }
+
+        get sites() {
+            return this._sites;
+        }
+
+        set sites(value) {
+            this._sites = value;
+            this.selectedSite = value[0];
+        }
+
+        get selectedSite() {
+            return this._selectedSite;
+        }
+
+        set selectedSite(site) {
+            this._selectedSite = site;
+            updateGraph(site.graph);
+        }
+    }
+
+    const dataManager = new DataManager();
+</script>
+<script>
     const form = document.getElementById('query-form');
     const queryInput = document.getElementById('query');
-
     form.addEventListener('submit', event => {
         event.preventDefault();
 
@@ -69,8 +106,8 @@
         fetch(`/search?q=${encodeURIComponent(queryInput.value)}`)
             .then(res => res.json())
             .then(data => {
-                updateMatrix(data.matrix);
-                updateGraph(data.graph);
+                dataManager.sites = data.sites;
+                dataManager.matrix = data.matrix;
             })
             .catch(err => {
                 console.log('Error :', err);

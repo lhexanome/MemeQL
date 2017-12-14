@@ -35,11 +35,11 @@ router.get('/search', am(async function (req, res, next) {
 
     const enhancedData = await enhancer.enhanceUrls(extractedData);
 
-    const jsonGraph = constructJsonData(enhancedData);
+    const jsonArray = constructJsonData(enhancedData);
 
     debug('Graph for search %s', req.query.q);
     res.json({
-        graph: jsonGraph,
+        sites: jsonArray,
     });
 }));
 
