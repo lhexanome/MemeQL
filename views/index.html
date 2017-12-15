@@ -38,28 +38,31 @@
         }
 
         table {
-            width: 400px;
+            float: right;
+            border: 1px solid black;
+            width: 40%;
             height: 400px;
         }
-
 
     </style>
 </head>
 <body>
+<div class="form">
+    <form id="query-form" action="" method="get">
+        <label for="query">Recherche :</label>
+        <input id="query" type="text" name="q">
+        <label for="use-cache">Cache :</label>
+        <input id="use-cache" type="checkbox" name="c">
+        <input type="submit" value="Let's Go!">
+    </form>
 
-<form id="query-form" action="" method="get">
-    <label for="query">Recherche :</label>
-    <input id="query" type="text" name="q">
-    <label for="use-cache">Cache :</label>
-    <input id="use-cache" type="checkbox" name="c">
-    <input type="submit" value="Let's Go!">
-</form>
-
-<label for="selectSite">Graphe affiché</label>
-<select id="selectSite"></select>
+    <label for="selectSite">Graphe affiché</label>
+    <select id="selectSite"></select>
+</div>
 
 <div class="graphContainer"></div>
 
+<div id="matrix"></div>
 
 <!--#####################-->
 <!--       SCRIPTS       -->
@@ -138,6 +141,7 @@
 </script>
 <script>
     const selectElem = document.getElementById('selectSite');
+    const matrixElem = document.getElementById('matrix');
 
     function updateSelect(values) {
         // Remove all child
@@ -163,7 +167,7 @@
     });
 
     function float2color(percentage) {
-        const colorPartDec = 255 * percentage;
+        const colorPartDec = 255 * (1 - percentage);
         const colorPartHex = Number(parseInt(colorPartDec, 10)).toString(16);
 
         return "#" + colorPartHex + colorPartHex + colorPartHex;
@@ -171,6 +175,9 @@
 
 
     function updateMatrix(data) {
+        // Remove all child
+        while (matrixElem.firstChild) matrixElem.removeChild(matrixElem.firstChild);
+
         const table = document.createElement('table');
         const tableBody = document.createElement('tbody');
 
@@ -189,14 +196,14 @@
         });
 
         table.appendChild(tableBody);
-        document.body.appendChild(table);
+        matrixElem.appendChild(table);
 
     }
 </script>
 
 <script src="https://d3js.org/d3.v3.min.js"></script>
 <script>
-    const WIDTH = 1000;
+    const WIDTH = 800;
     const HEIGHT = 800;
 
     function updateGraph(data) {
@@ -204,6 +211,12 @@
         const el = document.getElementsByClassName('graphContainer')[0];
         // Remove all child
         while (el.firstChild) el.removeChild(el.firstChild);
+
+        // Show a message if empty
+        if (data.nodes.length === 0 && data.links.length === 0) {
+            el.innerHTML = 'Aucun résultat pour ce site';
+            return;
+        }
 
         const color = d3.scale.category20();
 
@@ -238,8 +251,8 @@
             .attr('viewBox', '0 -5 10 10')
             .attr('refX', 15)
             .attr('refY', 0.5)
-            .attr('markerWidth', 2)
-            .attr('markerHeight', 2)
+            .attr('markerWidth', 10)
+            .attr('markerHeight', 6)
             .attr('orient', 'auto')
             .append('svg:path')
             .attr('d', 'M0,-5L10,0L0,5');

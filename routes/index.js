@@ -43,7 +43,8 @@ router.get('/search', am(async function (req, res, next) {
     const jsonArray = constructJsonData(enhancedData);
 
     debug('Graph for search %s', req.query.q);
-    debug('tableau', matrixArray);
+    debug('Similarity matrix', matrixArray);
+
     res.json({
         sites: jsonArray,
         matrix: compareListGraph(matrixArray)
